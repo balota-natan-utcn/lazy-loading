@@ -64,6 +64,6 @@ window.onload = () => {
 
   if (imagesLoaded === imagesToLoad) {
     console.log('All images loaded!');
-    window.stop();//i got really tired of that spinny thing and not figuring out what was keeping the page in interactive mode :((
+    //window.stop();//i got really tired of that spinny thing and not figuring out what was keeping the page in interactive mode
   }
 };
