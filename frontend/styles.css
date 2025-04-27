@@ -1,23 +1,26 @@
-#gallery {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
+#gallery
+{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
   
-  #gallery img {
-    width: 300px;
-    margin: 10px;
-    object-fit: cover;
-    background-color: #eee;
-    transition: filter 0.5s, opacity 0.5s;
-    opacity: 0.8;
-  }
+#gallery img
+{
+  width: 300px;
+  margin: 10px;
+  object-fit: cover;
+  background-color: #eee;
+  transition: filter 0.5s, opacity 0.5s;
+  opacity: 0.8;
+}
   
-  .blur {
-    filter: blur(10px);
-  }
+.blur
+{
+  filter: blur(10px);
+}
   
-  #gallery img:not(.blur) {
-    opacity: 1;
-  }
-  
+#gallery img:not(.blur)
+{
+  opacity: 1;
+}
