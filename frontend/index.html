@@ -2,14 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Lazy Loading with Intersection Observer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Gallery</title>
   <link rel="stylesheet" href="styles.css">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
 </head>
 <body>
-  <h1>Smart Lazy Loading Demo</h1>
-  <div id="gallery"></div>
-
+  <header>
+    <h1>Image Gallery</h1>
+    <p>Simple image gallery loading all images directly</p>
+  </header>
+  
+  <div class="gallery-container">
+    <div id="image-gallery" class="image-gallery">
+      <!-- Images will be populated here dynamically -->
+      <div class="loading">Loading images...</div>
+    </div>
+  </div>
+  
+  <footer>
+    <p>Image Gallery Demo | Express + Vanilla JS</p>
+  </footer>
+  
   <script src="main.js"></script>
 </body>
 </html>

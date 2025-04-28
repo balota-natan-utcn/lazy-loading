@@ -1,56 +1,39 @@
 const express = require('express');
-const cors = require('cors');
-const fs = require('fs');
 const path = require('path');
-const sharp = require('sharp');
-const imagesRoute = require('./routes/images');
+const fs = require('fs');
+const cors = require('cors');
 
 const app = express();
-const PORT = 3000;
+const port = 3000;
 
-const IMAGE_DIR = path.join(__dirname, 'images');
-const LOWRES_DIR = path.join(__dirname, 'images-lowres');
+// Enable CORS to allow frontend to communicate with backend
+app.use(cors());
 
-// Ensure low-res directory exists
-if (!fs.existsSync(LOWRES_DIR))
-{
-  fs.mkdirSync(LOWRES_DIR);
-}
+// Serve images folder statically
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
-// Pre-generate low-res images
-async function generateLowResImages()
-{
-  const files = fs.readdirSync(IMAGE_DIR);
-
-  for (const file of files)
-  {
-    const originalImagePath = path.join(IMAGE_DIR, file);
-    const lowResImagePath = path.join(LOWRES_DIR, file);
-
-    // Skip if already exists
-    if (fs.existsSync(lowResImagePath)) continue;
-
-    try
-    {
-      await sharp(originalImagePath)
-        .resize({ width: 20 }) //20px width
-        .toFile(lowResImagePath);
-
-      console.log(`Generated low-res for ${file}`);
-    } catch (err)
-    {
-      console.error(`Failed to process ${file}`, err);
+// API endpoint to get image list
+app.get('/api/images', (req, res) => {
+  const imagesDir = path.join(__dirname, 'images');
+  
+  fs.readdir(imagesDir, (err, files) => {
+    if (err) {
+      return res.status(500).json({ error: 'Failed to read images directory' });
     }
-  }
-}
-
-// Generate images before server starts
-generateLowResImages().then(() =>
-{
-  app.use(cors());
-  app.use('/images', imagesRoute);
-
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    
+    // Filter for image files only
+    const imageFiles = files.filter(file => {
+      const ext = path.extname(file).toLowerCase();
+      return ['.jpg', '.jpeg', '.png', '.gif', '.webp'].includes(ext);
+    });
+    
+    res.json({ images: imageFiles });
   });
+});
+
+// Serve frontend static files
+app.use(express.static(path.join(__dirname, '..', 'frontend')));
+
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
 });
